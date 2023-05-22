@@ -17,9 +17,17 @@ from django.contrib import admin
 from django.urls import path
 from login import views as login_views
 from menu import views as menu_views
+from add_task import views as add_task_views
+from calendar_menu import views as calendar_menu_views
+from manage_menu import views as manage_menu_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', login_views.LoginView.as_view(), name='login'),
     path('menu/', menu_views.MainMenuView.as_view(), name='menu'),
+    path('add_task/', add_task_views.AddTaskFormView.as_view(), name='add_task'),
+    path('calendar_menu/', calendar_menu_views.CalendarView.as_view(), name='calendar_menu'),
+    path('manage_menu', manage_menu_views.ManageMenuView.as_view(), name='manage_menu'),
+    path('logout/', login_views.LogoutView.as_view(), name='logout'),
 ]

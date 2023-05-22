@@ -3,4 +3,7 @@ from django.views import View
 
 
 class MainMenuView(View):
-    pass
+
+    def get(self, request):
+        return render(request, 'menu/menu.html')
+

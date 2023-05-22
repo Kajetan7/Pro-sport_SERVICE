@@ -1,0 +1,25 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pro Sport SERVICE</title>
+<link href="{% static '/base.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="button-bar">
+    <button><a href="{% url 'add_task' %}">Dodaj zlecenie</a></button>
+    <br><br>
+    <button><a href="{% url 'calendar_menu' %}">Kalendarz serwisanta</a></button>
+    <br><br>
+    {% if user.is_superuser %}
+        <button><a href="{% url 'manage_menu' %}">Zarzadzaj</a></button>
+        <br><br>
+    {% endif %}
+    <button><a href="{% url 'logout' %}">Wyloguj</a></button>
+</div>
+</body>
+</html>
