@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'login',
     'menu',
+    'add_task',
+    'calendar_menu',
+    'manage_menu',
 ]
 
 MIDDLEWARE = [
