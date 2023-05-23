@@ -1,0 +1,12 @@
+{% extends 'add_task/add_task_base.html' %}
+{% block add_task_form %}
+    <form method = "POST">
+        {% csrf_token %}
+        Nowe zlecenie:
+        {{ form_bicycle_details.as_p }}<br>
+        {{ form_defects }}<br><br>
+        {{ form_parts }}<br>
+        <br>
+        <input type="submit" value="Dodatkowe informacje >>">
+    </form>
+{% endblock %}

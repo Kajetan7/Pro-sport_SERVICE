@@ -1,0 +1,11 @@
+{% extends 'add_task/add_task_base.html' %}
+{% block add_task_form %}
+    <form method = "POST">
+        {% csrf_token %}
+        Nowe zlecenie:
+        {{ form_employee.as_p }}
+        Dane klienta:
+        {{ form_client_data.as_p }}
+        <input type="submit" value="Dane roweru >>">
+    </form>
+{% endblock %}

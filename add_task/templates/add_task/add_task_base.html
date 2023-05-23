@@ -10,12 +10,7 @@
 <link href="{% static '/base.css' %}" rel="stylesheet">
 </head>
 <body>
-
-    <form method = "POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit">
-    </form>
-
+{% block add_task_form %}
+{% endblock %}
 </body>
 </html>
