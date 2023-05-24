@@ -61,4 +61,6 @@ class AddTaskForm2View(View):
             for part in parts:
                 TasksParts.objects.create(task=t, part=part)
             return render(request, 'add_task/add_task_page3.html')
-
+        return render(request, 'add_task/add_task_page2.html', {'form_bicycle_details': form_bicycle_details,
+                                                                'form_defects': form_defects,
+                                                                'form_parts': form_parts})
