@@ -57,10 +57,22 @@ class AddTaskForm2View(View):
             t.bicycle_year = bicycle_year
             t.save()
             for defect in defects:
-                TasksDefects.objects.create(task=t, defect=defect)
+                TasksDefects.objects.create(task=t, defect=Defects.objects.get(id=defect))
             for part in parts:
-                TasksParts.objects.create(task=t, part=part)
-            return render(request, 'add_task/add_task_page3.html')
+                TasksParts.objects.create(task=t, part=Parts.objects.get(id=part))
+            return redirect('add_task_3')
         return render(request, 'add_task/add_task_page2.html', {'form_bicycle_details': form_bicycle_details,
                                                                 'form_defects': form_defects,
                                                                 'form_parts': form_parts})
+
+
+class AddTaskForm3View(View):
+
+    def get(self, request):
+        form_additional_info = AddTaskAdditionalInfoForm()
+        form_estimated_price = AddTaskEstimatedPriceForm()
+        return render(request, 'add_task/add_task_page3.html', {'form_additional_info': form_additional_info,
+                                                                'form_estimated_price': form_estimated_price})
+
+    def post(self, request):
+
