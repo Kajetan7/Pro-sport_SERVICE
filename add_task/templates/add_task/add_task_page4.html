@@ -1,0 +1,10 @@
+{% extends 'add_task/add_task_base.html' %}
+{% block add_task_form %}
+    <form method = "POST">
+        {% csrf_token %}
+        Nowe zlecenie:
+        {{ form_estimated_price.as_p }}<br>
+        <br>
+        <input type="submit" value="Zatwierdzenie >>">
+    </form>
+{% endblock %}

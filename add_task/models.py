@@ -15,6 +15,9 @@ class Clients(models.Model):
     phone_number = models.IntegerField()
     email_address = models.CharField(max_length=128)
 
+    def __str__(self):
+        return f"{self.name} {self.surname}"
+
 
 class Defects(models.Model):
     description = models.CharField(max_length=128)
@@ -44,7 +47,7 @@ class Tasks(models.Model):
     estimated_time = models.DurationField(null=True)
     notes = models.TextField(null=True)
     expected_price = models.IntegerField(null=True)
-    photo = models.ImageField(null=True)
+    photo = models.ImageField(null=True, blank=True, upload_to='images/')
     payment_in_advance = models.IntegerField(null=True)
     reclamation = models.BooleanField(null=True)
 

@@ -70,9 +70,44 @@ class AddTaskForm3View(View):
 
     def get(self, request):
         form_additional_info = AddTaskAdditionalInfoForm()
-        form_estimated_price = AddTaskEstimatedPriceForm()
-        return render(request, 'add_task/add_task_page3.html', {'form_additional_info': form_additional_info,
-                                                                'form_estimated_price': form_estimated_price})
+        return render(request, 'add_task/add_task_page3.html', {'form_additional_info': form_additional_info})
 
     def post(self, request):
+        form_additional_info = AddTaskAdditionalInfoForm(request.POST, request.FILES)
+        print(request.POST)
+        if form_additional_info.is_valid():
+            priority = form_additional_info.cleaned_data['priority']
+            reclamation = form_additional_info.cleaned_data['reclamation']
+            payment_in_advance = form_additional_info.cleaned_data['payment_in_advance']
+            estimated_time = form_additional_info.cleaned_data['estimated_time']
+            photo = form_additional_info.cleaned_data['photo']
+            print(estimated_time)
+            print(estimated_time.seconds)
+            notes = form_additional_info.cleaned_data['notes']
+            t = Tasks.objects.last()
+            t.priority = priority
+            t.reclamation = reclamation
+            t.payment_in_advance = payment_in_advance
+            t.estimated_time = estimated_time * 60
+            t.notes = notes
+            t.photo = photo
+            t.save()
+            return redirect('task_estimated_price')
+        return render(request, 'add_task/add_task_page3.html', {'form_additional_info': form_additional_info})
 
+
+class AddTaskEstimatedPriceView(View):
+
+    def get(self, request):
+        form_estimated_price = AddTaskEstimatedPriceForm()
+        return render(request, 'add_task/add_task_page4.html', {'form_estimated_price': form_estimated_price})
+
+    def post(self, request):
+        form_estimated_price = AddTaskEstimatedPriceForm(request.POST)
+        if form_estimated_price.is_valid():
+            estimated_price = form_estimated_price.cleaned_data['estimated_price']
+            t = Tasks.objects.last()
+            t.expected_price = estimated_price
+            t.save()
+            return redirect('menu')
+        return render(request, 'add_task/add_task_page4.html', {'form_estimated_price': form_estimated_price})

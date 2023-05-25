@@ -58,26 +58,32 @@ class AddTaskAdditionalInfoForm(forms.Form):
     priority = forms.BooleanField(label='Priorytet')
     reclamation = forms.BooleanField(label='Reklamacja')
     payment_in_advance = forms.IntegerField(label='Zaliczka')
-    estimated_service_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='Szacowany czas naprawy')
+    estimated_time = forms.DurationField(widget=forms.TimeInput(attrs={'format': '%H:%M', 'type': 'time'}), label='Szacowany czas naprawy')
     photo = forms.ImageField(label='Zdjecie')
-    notes = forms.Textarea('Notatki')
+    notes = forms.CharField(label='Notatki', widget=forms.Textarea)
 
 
 class AddTaskEstimatedPriceForm(forms.Form):
     t = Tasks.objects.last()
-    priority_price = 100 * t.priority
+    if t.priority:
+        priority_price = 100
+    else:
+        priority_price = 0
 
     p = TasksParts.objects.filter(task_id=t.id)
     parts_price = 0
     for part in p:
         parts_price += Parts.objects.get(id=part.part_id).average_price
 
-    d = TasksDefects.objects.get(task_id=t.id)
+    d = TasksDefects.objects.filter(task_id=t.id)
     defects_price = 0
     for defect in d:
         defects_price += Defects.objects.get(id=defect.defect_id).average_price
 
-    worktime_price = 60 * t.estimated_service_time.time.hour + 1 * t.estimated_service_time.time.minute
+    if t.estimated_time:
+        worktime_price = 60 * t.estimated_time.seconds / 3600
+    else:
+        worktime_price = 0
 
     calculated_estimated_price = priority_price + parts_price + defects_price + worktime_price
 
