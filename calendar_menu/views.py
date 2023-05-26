@@ -1,21 +1,12 @@
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import ListView
 from add_task.models import *
 
 
-class CalendarView(View):
-
-    def get(self, request):
-        tasks = Tasks.objects.all()
-        clients = Clients.objects.all()
-        defects = Defects.objects.all()
-        parts = Parts.objects.all()
-        context = {
-            'tasks': tasks,
-            'clients': clients,
-            'defects': defects,
-            'parts': parts
-        }
-        return render(request, 'calendar_menu/calendar_main.html', context)
-
-
+class CalendarView(ListView):
+    model = Tasks
+    template_name = 'calendar_menu/calendar_main.html'
+    context_object_name = 'tasks'
+    paginate_by = 5
+    queryset = Tasks.objects.all().order_by('priority')

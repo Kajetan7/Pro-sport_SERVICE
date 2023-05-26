@@ -18,6 +18,7 @@ class AddTaskForm1View(View):
         if form_employee.is_valid() and form_client_data.is_valid():
             employee_receiving = form_employee.cleaned_data['employee_receiving']
             employee_service = form_employee.cleaned_data['employee_service']
+            request.session['client_name'] = form_client_data.cleaned_data['client_name']
             client_name = form_client_data.cleaned_data['client_name']
             client_surname = form_client_data.cleaned_data['client_surname']
             client_phone = form_client_data.cleaned_data['client_phone']
@@ -36,6 +37,8 @@ class AddTaskForm1View(View):
 class AddTaskForm2View(View):
 
     def get(self, request):
+        print(request.session['client_name'])
+        print(request.session)
         form_bicycle_details = AddTaskBicycleDetailsForm()
         form_defects = AddTaskDefectsForm()
         form_parts = AddTaskPartsForm()
@@ -111,3 +114,48 @@ class AddTaskEstimatedPriceView(View):
             t.save()
             return redirect('menu')
         return render(request, 'add_task/add_task_page4.html', {'form_estimated_price': form_estimated_price})
+
+
+class EditTaskForm1View(View):
+
+    def get(self, request, id):
+        form_employee = AddTaskEmployeeForm()
+        form_client_data = AddTaskClientDataForm()
+        return render(request, 'add_task/add_task_page1.html', {'form_employee': form_employee,
+                                                               'form_client_data': form_client_data})
+
+    def post(self, request, id):
+        form_employee = AddTaskEmployeeForm(request.POST)
+        form_client_data = AddTaskClientDataForm(request.POST)
+        if form_employee.is_valid() and form_client_data.is_valid():
+            employee_receiving = form_employee.cleaned_data['employee_receiving']
+            employee_service = form_employee.cleaned_data['employee_service']
+            client_name = form_client_data.cleaned_data['client_name']
+            client_surname = form_client_data.cleaned_data['client_surname']
+            client_phone = form_client_data.cleaned_data['client_phone']
+            client_mail = form_client_data.cleaned_data['client_mail']
+            client = Clients.objects.get(id=Tasks.objects.get(id=id).client_id)
+            client.name = client_name
+            client.surname = client_surname
+            client.phone_number = client_phone
+            client.email_address = client_mail
+            client.save()
+            task = Tasks.objects.get(id=id)
+            task.employee_receiving = Employees.objects.get(id=employee_receiving)
+            task.employee_service = Employees.objects.get(id=employee_service)
+            task.client = Clients.objects.get(name=client_name, surname=client_surname, phone_number=client_phone)
+            task.save()
+            return redirect('edit_task_2')
+        return render(request, 'add_task/add_task_page1.html', {'form_employee': form_employee,
+                                                                'form_client_data': form_client_data})
+
+
+# class EditTaskForm2View(View):
+#
+#     def get(self, request, id):
+#         form_bicycle_details = AddTaskBicycleDetailsForm()
+#         form_defects = AddTaskDefectsForm()
+#         form_parts = AddTaskPartsForm()
+#         return render(request, 'add_task/add_task_page2.html', {'form_bicycle_details': form_bicycle_details,
+#                                                                 'form_defects': form_defects,
+#                                                                 'form_parts': form_parts})

@@ -7,26 +7,54 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pro Sport SERVICE</title>
-<link href="{% static '/base.css' %}" rel="stylesheet">
+<link href="{% static 'base.css' %}" rel="stylesheet">
 </head>
 <body>
 
     {% for task in tasks %}
         <ul>
-        {{ task.id }}
-        <li>Model: {{ task.bicycle_name }} {{ task.bicycle_year }}</li>
+        {{ task.id }} <a href="{% url 'edit_task' task.id %}">Edycja</a>
+        <li>Klient: {{ task.client }}</li>
         <li>Priorytet: {{ task.priority }}</li>
+        <li>Model: {{ task.bicycle_name }} {{ task.bicycle_year }}</li>
         <li>Czas serwisu: {{ task.estimated_time }}</li>
-        <li>Notatki: {{ task.notes }}</li>
-        <li>Oszacowana cena: {{ task.expected_price }}</li>
         <li>Zaliczka: {{ task.payment_in_advance }}</li>
         <li>Reklamacja: {{ task.reclamation }}</li>
-        <li>Klient: {{ task.client }}</li>
-        <li>Usterki: {% for defect in task.tasksdefects_set.all %} {{ defect }} {% endfor %}</li>
-        <li>Czesci do wymiany: {% for part in task.tasksparts_set.all %} {{ part }} {% endfor %}</li>
-{#        <li><a href="{% url 'edit_task' task.id %}">Edycja</a></li>#}
+        <li>Usterki: {% for defect in task.defects.all %} {{ defect }} || {% endfor %}</li>
+        <li>Czesci do wymiany: {% for part in task.parts.all %} {{ part }} || {% endfor %}</li>
+        <li>Oszacowana cena: {{ task.expected_price }}</li>
+        <li>Notatki: {{ task.notes }}</li>
+        <br>
+        {% if task.photo %}
+            <img src="{{ task.photo.url }}" width="400">
+        {% endif %}
+
         </ul>
     {% endfor %}
+    <div>
+{% if is_paginated %}
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}">&laquo; poprzednia </a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="active"><span>| {{ i }} |<span class="sr-only"></span></span></li>
+                {% else %}
+                    <li><a href="?page={{ i }}">| {{ i }} |</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">&raquo; nastepna</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    {% endif %}
 
+
+</div>
 </body>
 </html>
