@@ -1,0 +1,26 @@
+{% extends 'add_task/add_task_base.html' %}
+{% block add_task_form %}
+    <form method = "POST">
+        {% csrf_token %}
+        Nowe zlecenie:
+        <br>
+        <br>
+        Priorytet:
+        <input type="checkbox" name="priority" {% if task.priority is True %}checked{% endif %}>
+        <br>
+        <br>
+        Reklamacja:
+        <input type="checkbox" name="reclamation" {% if task.reclamation is True %}checked{% endif %}>
+        <br>
+        <br>
+        Zaliczka:
+        <input type="number" name="payment_in_advance" value="{{ task.payment_in_advance }}">
+        <br>
+        <br>
+        Notatki:
+        <textarea name="notes">{{ task.notes }}</textarea>
+        <br>
+        <br>
+        <input type="submit" value="Przewidywana cena >>">
+    </form>
+{% endblock %}

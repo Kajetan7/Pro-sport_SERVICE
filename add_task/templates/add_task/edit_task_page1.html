@@ -1,0 +1,45 @@
+{% extends 'add_task/add_task_base.html' %}
+{% block add_task_form %}
+    <form method = "POST">
+        {% csrf_token %}
+        Nowe zlecenie:
+        <br>
+        <br>
+        Przyjmujacy:
+        <select name="employee_receiving">
+            {% for employee in employees %}
+                <option value="{{ employee.id }}" selected="{{ task.employee_receiving_id }}">{{ employee.name }} {{ employee.surname }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <br>
+        Serwisant:
+        <select name="employee_service">
+            {% for employee in employees %}
+                <option value="{{ employee.id }}" selected="{{ task.employee_service_id }}">{{ employee.name }} {{ employee.surname }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <br>
+        Dane klienta:
+        <br>
+        <br>
+        Imie:
+        <input type="text" name="client_name" value="{{ task.client.name }}">
+        <br>
+        <br>
+        Nazwisko:
+        <input type="text" name="client_surname" value="{{ task.client.surname }}">
+        <br>
+        <br>
+        Tel:
+        <input type="number" name="client_phone" value="{{ task.client.phone_number }}">
+        <br>
+        <br>
+        Mail:
+        <input type="text" name="client_mail" value="{{ task.client.email_address }}">
+        <br>
+        <br>
+        <input type="submit" value="Dane roweru >>">
+    </form>
+{% endblock %}

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from login import views as login_views
 from menu import views as menu_views
 from add_task import views as add_task_views
@@ -33,8 +34,12 @@ urlpatterns = [
     path('add_task/3/', add_task_views.AddTaskForm3View.as_view(), name='add_task_3'),
     path('add_task/4/', add_task_views.AddTaskEstimatedPriceView.as_view(), name='task_estimated_price'),
     path('edit_task/<int:id>/1/', add_task_views.EditTaskForm1View.as_view(), name='edit_task'),
-    # path('edit_task/<int:id>/2/', add_task_views.EditTaskForm2View.as_view(), name='edit_task_2'),
+    path('edit_task/<int:id>/2/', add_task_views.EditTaskForm2View.as_view(), name='edit_task_2'),
+    path('edit_task/<int:id>/3/', add_task_views.EditTaskForm3View.as_view(), name='edit_task_3'),
+    path('edit_task/<int:id>/4/', add_task_views.EditTaskForm4View.as_view(), name='edit_task_4'),
     path('calendar_menu/', calendar_menu_views.CalendarView.as_view(), name='calendar_menu'),
     path('manage_menu', manage_menu_views.ManageMenuView.as_view(), name='manage_menu'),
     path('logout/', login_views.LogoutView.as_view(), name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += staticfiles_urlpatterns()

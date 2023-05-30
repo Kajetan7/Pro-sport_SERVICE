@@ -1,6 +1,6 @@
 {% extends 'add_task/add_task_base.html' %}
 {% block add_task_form %}
-    <form method = "POST" enctype="multipart/form-data">
+    <form method = "POST">
         {% csrf_token %}
         Nowe zlecenie:
         {{ form_additional_info.as_p }}<br>

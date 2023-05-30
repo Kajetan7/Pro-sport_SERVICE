@@ -15,11 +15,11 @@
         <ul>
         {{ task.id }} <a href="{% url 'edit_task' task.id %}">Edycja</a>
         <li>Klient: {{ task.client }}</li>
-        <li>Priorytet: {{ task.priority }}</li>
+        <li>Priorytet: {% if task.priority is True %}Tak{% endif %}</li>
         <li>Model: {{ task.bicycle_name }} {{ task.bicycle_year }}</li>
         <li>Czas serwisu: {{ task.estimated_time }}</li>
         <li>Zaliczka: {{ task.payment_in_advance }}</li>
-        <li>Reklamacja: {{ task.reclamation }}</li>
+        <li>Reklamacja: {% if task.reclamation is True %}Tak{% endif %}</li>
         <li>Usterki: {% for defect in task.defects.all %} {{ defect }} || {% endfor %}</li>
         <li>Czesci do wymiany: {% for part in task.parts.all %} {{ part }} || {% endfor %}</li>
         <li>Oszacowana cena: {{ task.expected_price }}</li>
