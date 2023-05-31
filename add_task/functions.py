@@ -2,6 +2,9 @@ from .models import *
 
 
 def filling_db_with_defects_parts_employees():
+    """
+    A function that populates the database with random records for parts, employees, and defects.
+    """
     Parts.objects.create(description="Koło przednie", average_price=50)
     Parts.objects.create(description="Opona", average_price=30)
     Parts.objects.create(description="Przerzutka tylna", average_price=70)

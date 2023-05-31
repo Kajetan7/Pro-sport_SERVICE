@@ -8,6 +8,16 @@ from django.http.response import HttpResponse
 
 
 class AddTaskForm1View(LoginRequiredMixin, View):
+    """
+    A Django view that handles the first step of adding a task, requiring login authentication.
+
+    - `get`: Renders the 'add_task/add_task_page1.html' template and
+             creates instances of `AddTaskEmployeeForm` and `AddTaskClientDataForm`.
+
+    - `post`: Processes the form submission, validating the `AddTaskEmployeeForm` and `AddTaskClientDataForm`.
+              If both forms are valid, the cleaned data is stored in the session.
+              User is redirected to the next step of adding a task.
+    """
 
     def get(self, request):
         form_employee = AddTaskEmployeeForm()
@@ -31,7 +41,16 @@ class AddTaskForm1View(LoginRequiredMixin, View):
 
 
 class AddTaskForm2View(LoginRequiredMixin, View):
+    """
+    A Django view that handles second step of adding a task, requiring login authentication.
 
+    - `get`: Renders the 'add_task/add_task_page2.html' template and
+             creates instances of `AddTaskBicycleDetailsForm`, `AddTaskDefectsForm` and `AddTaskPartsForm`
+
+    - `post`: Processes the form submission, validating above forms.
+              If all forms are valid, the cleaned data is stored in the session.
+              User is redirected to the next step of adding a task.
+    """
     def get(self, request):
         form_bicycle_details = AddTaskBicycleDetailsForm()
         form_defects = AddTaskDefectsForm()
@@ -56,7 +75,16 @@ class AddTaskForm2View(LoginRequiredMixin, View):
 
 
 class AddTaskForm3View(LoginRequiredMixin, View):
+    """
+    A Django view that handles third step of adding a task, requiring login authentication.
 
+    - `get`: Renders the 'add_task/add_task_page3.html' template and
+             creates instances of `AddTaskAdditionalInfoForm`.
+
+    - `post`: Processes the form submission, validating above form.
+              If it is valid, the cleaned data is stored in the session.
+              User is redirected to the next step of adding a task.
+    """
     def get(self, request):
         form_additional_info = AddTaskAdditionalInfoForm()
         return render(request, 'add_task/add_task_page3.html', {'form_additional_info': form_additional_info})
@@ -73,7 +101,18 @@ class AddTaskForm3View(LoginRequiredMixin, View):
 
 
 class AddTaskEstimatedPriceView(LoginRequiredMixin, View):
+    """
+    A Django view that handles last step of adding a task, requiring login authentication.
 
+    - `get`: Renders the 'add_task/add_task_page3.html' template and
+             creates instances of `AddTaskEstimatedPriceForm`.
+
+    - `post`: Processes the form submission, validating above form.
+              If it is valid, a Clients and Tasks objects are created
+              based on cleaned data and session from previous steps.
+
+    When form is added - user is redirected to main menu.
+    """
     def get(self, request):
         form_estimated_price = AddTaskEstimatedPriceForm()
         return render(request, 'add_task/add_task_page4.html', {'form_estimated_price': form_estimated_price})
@@ -111,7 +150,17 @@ class AddTaskEstimatedPriceView(LoginRequiredMixin, View):
 
 
 class EditTaskForm1View(LoginRequiredMixin, View):
+    """
+    A Django view that handles the first step of editing a task, requiring authentication.
 
+    - get: Retrieves the task object with the given ID and retrieves all employees.
+           Renders the 'add_task/edit_task_page1.html' template with the task and employees passed to the template context.
+
+    - post: Processes the form submission. Retrieves the submitted data for employee and client fields.
+            Updates the corresponding client object with the new client data.
+            Updates the task object with the selected employee and updated client.
+            Finally, redirects the user to the next step of editing the task.
+    """
     def get(self, request, id):
         task = Tasks.objects.get(id=id)
         employees = Employees.objects.all()
@@ -139,7 +188,17 @@ class EditTaskForm1View(LoginRequiredMixin, View):
 
 
 class EditTaskForm2View(LoginRequiredMixin, View):
+    """
+    A Django view that handles the second step of editing a task, requiring authentication.
 
+    - get: Retrieves the task object with the given ID and retrieves all defects and parts.
+           Renders the 'add_task/edit_task_page2.html' template with the task, defects, and parts passed to the context.
+
+    - post: Processes the form submission. Retrieves the submitted data for bicycle name, bicycle year,
+            selected defects, and selected parts. Updates the corresponding task object with the new bicycle name and year.
+            Deletes old and creates new task-defect and task-part relationships based on selections.
+            Redirects the user to the next step of editing the task.
+    """
     def get(self, request, id):
         task = Tasks.objects.get(id=id)
         defects = Defects.objects.all()
@@ -165,7 +224,16 @@ class EditTaskForm2View(LoginRequiredMixin, View):
 
 
 class EditTaskForm3View(LoginRequiredMixin, View):
+    """
+    A Django view that handles the third step of editing a task, requiring authentication.
 
+    - get: Retrieves the task object with the given ID. Renders the 'add_task/edit_task_page3.html' template.
+
+    - post: Processes the form submission. Retrieves the submitted data for priority, reclamation, payment in advance, and notes.
+            Converts the priority and reclamation values from strings to boolean values.
+            Updates the corresponding task object with the new values.
+            Redirects the user to the next step of editing the task.
+    """
     def get(self, request, id):
         task = Tasks.objects.get(id=id)
         return render(request, 'add_task/edit_task_page3.html', {'task': task})
@@ -193,7 +261,16 @@ class EditTaskForm3View(LoginRequiredMixin, View):
 
 
 class EditTaskForm4View(LoginRequiredMixin, View):
+    """
+    A Django view that handles the last step of editing a task, requiring authentication.
 
+    - get: Retrieves the task object with the given ID. Renders the 'add_task/edit_task_page4.html' template.
+
+    - post: Processes the form submission. Retrieves the submitted data for the estimated price, estimated time, and photo.
+            Converts the estimated time string to a datetime.timedelta object representing the duration.
+            Updates the corresponding task object with the new values.
+            Redirects the user back to the main menu.
+    """
     def get(self, request, id):
         task = Tasks.objects.get(id=id)
         return render(request, 'add_task/edit_task_page4.html', {'task': task})

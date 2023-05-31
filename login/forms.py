@@ -4,6 +4,11 @@ from django.core.exceptions import ValidationError
 
 
 class LoginForm(forms.Form):
+    """
+    A Django form for:
+    - handling username and password fields
+    - validation and authentication functionality
+    """
     username = forms.CharField(max_length=32)
     password = forms.CharField(widget=forms.PasswordInput, max_length=32)
 

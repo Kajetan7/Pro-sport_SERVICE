@@ -5,7 +5,11 @@ from django.contrib.auth import login, logout
 
 
 class LoginView(View):
-
+    """
+    A Django view for handling login functionality:
+    - rendering the login form
+    - processing form submissions
+    """
     def get(self, request):
         form = LoginForm()
         return render(request, 'login/index.html', {'form': form})
@@ -21,7 +25,11 @@ class LoginView(View):
 
 
 class LogoutView(View):
-
+    """
+    A Django view for handling logout functionality:
+    - logs out the currently authenticated user
+    - redirects them to the login page
+    """
     def get(self, request):
         logout(request)
         return redirect('login')
