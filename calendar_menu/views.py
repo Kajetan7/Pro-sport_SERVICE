@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
 from add_task.models import *
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class CalendarView(ListView):
+class CalendarView(LoginRequiredMixin, ListView):
     model = Tasks
     template_name = 'calendar_menu/calendar_main.html'
     context_object_name = 'tasks'

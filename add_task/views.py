@@ -3,9 +3,11 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .forms import *
 from .models import *
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http.response import HttpResponse
 
 
-class AddTaskForm1View(View):
+class AddTaskForm1View(LoginRequiredMixin, View):
 
     def get(self, request):
         form_employee = AddTaskEmployeeForm()
@@ -28,7 +30,7 @@ class AddTaskForm1View(View):
                                                                 'form_client_data': form_client_data})
 
 
-class AddTaskForm2View(View):
+class AddTaskForm2View(LoginRequiredMixin, View):
 
     def get(self, request):
         form_bicycle_details = AddTaskBicycleDetailsForm()
@@ -53,7 +55,7 @@ class AddTaskForm2View(View):
                                                                 'form_parts': form_parts})
 
 
-class AddTaskForm3View(View):
+class AddTaskForm3View(LoginRequiredMixin, View):
 
     def get(self, request):
         form_additional_info = AddTaskAdditionalInfoForm()
@@ -61,7 +63,6 @@ class AddTaskForm3View(View):
 
     def post(self, request):
         form_additional_info = AddTaskAdditionalInfoForm(request.POST)
-        print(request.POST)
         if form_additional_info.is_valid():
             request.session['priority'] = form_additional_info.cleaned_data['priority']
             request.session['reclamation'] = form_additional_info.cleaned_data['reclamation']
@@ -71,7 +72,7 @@ class AddTaskForm3View(View):
         return render(request, 'add_task/add_task_page3.html', {'form_additional_info': form_additional_info})
 
 
-class AddTaskEstimatedPriceView(View):
+class AddTaskEstimatedPriceView(LoginRequiredMixin, View):
 
     def get(self, request):
         form_estimated_price = AddTaskEstimatedPriceForm()
@@ -109,7 +110,7 @@ class AddTaskEstimatedPriceView(View):
         return render(request, 'add_task/add_task_page4.html', {'form_estimated_price': form_estimated_price})
 
 
-class EditTaskForm1View(View):
+class EditTaskForm1View(LoginRequiredMixin, View):
 
     def get(self, request, id):
         task = Tasks.objects.get(id=id)
@@ -137,7 +138,7 @@ class EditTaskForm1View(View):
         return redirect('edit_task_2', id=id)
 
 
-class EditTaskForm2View(View):
+class EditTaskForm2View(LoginRequiredMixin, View):
 
     def get(self, request, id):
         task = Tasks.objects.get(id=id)
@@ -163,7 +164,7 @@ class EditTaskForm2View(View):
         return redirect('edit_task_3', id=id)
 
 
-class EditTaskForm3View(View):
+class EditTaskForm3View(LoginRequiredMixin, View):
 
     def get(self, request, id):
         task = Tasks.objects.get(id=id)
@@ -191,7 +192,7 @@ class EditTaskForm3View(View):
         return redirect('edit_task_4', id=id)
 
 
-class EditTaskForm4View(View):
+class EditTaskForm4View(LoginRequiredMixin, View):
 
     def get(self, request, id):
         task = Tasks.objects.get(id=id)
