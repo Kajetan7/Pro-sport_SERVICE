@@ -285,7 +285,7 @@ class EditTaskForm4View(LoginRequiredMixin, View):
         estimated_time_calc = datetime.datetime.strptime(estimated_time_str, '%H:%M')
         total_sec = estimated_time_calc.hour*3600 + estimated_time_calc.minute*60
         estimated_time = datetime.timedelta(seconds=total_sec)
-        photo = request.POST.get('photo')
+        photo = request.FILES.get('photo')
         t = Tasks.objects.get(id=id)
         t.estimated_time = estimated_time
         t.expected_price = estimated_price
