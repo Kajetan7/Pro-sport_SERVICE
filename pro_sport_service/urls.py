@@ -38,7 +38,7 @@ urlpatterns = [
     path('edit_task/<int:id>/3/', add_task_views.EditTaskForm3View.as_view(), name='edit_task_3'),
     path('edit_task/<int:id>/4/', add_task_views.EditTaskForm4View.as_view(), name='edit_task_4'),
     path('calendar_menu/', calendar_menu_views.CalendarView.as_view(), name='calendar_menu'),
-    path('manage_menu', manage_menu_views.ManageMenuView.as_view(), name='manage_menu'),
+    path('manage_menu/', manage_menu_views.ManageMenuView.as_view(), name='manage_menu'),
     path('logout/', login_views.LogoutView.as_view(), name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
