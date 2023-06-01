@@ -26,6 +26,7 @@ class AddTaskForm1View(LoginRequiredMixin, View):
                                                                'form_client_data': form_client_data})
 
     def post(self, request):
+        print(request.POST)
         form_employee = AddTaskEmployeeForm(request.POST)
         form_client_data = AddTaskClientDataForm(request.POST)
         if form_employee.is_valid() and form_client_data.is_valid():
@@ -36,6 +37,8 @@ class AddTaskForm1View(LoginRequiredMixin, View):
             request.session['client_phone'] = form_client_data.cleaned_data['client_phone']
             request.session['client_mail'] = form_client_data.cleaned_data['client_mail']
             return redirect('add_task_2')
+        print(form_employee.errors)
+        print(form_client_data.errors)
         return render(request, 'add_task/add_task_page1.html', {'form_employee': form_employee,
                                                                 'form_client_data': form_client_data})
 
@@ -60,6 +63,7 @@ class AddTaskForm2View(LoginRequiredMixin, View):
                                                                 'form_parts': form_parts})
 
     def post(self, request):
+        print(request.POST)
         form_bicycle_details = AddTaskBicycleDetailsForm(request.POST)
         form_defects = AddTaskDefectsForm(request.POST)
         form_parts = AddTaskPartsForm(request.POST)

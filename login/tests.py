@@ -139,6 +139,81 @@ def test_manage_menu_view_login(user):
 
 
 @pytest.mark.django_db
+def test_edit_task_1_view_not_login(tasks):
+    client = Client()
+    url = reverse('edit_task', kwargs={'id': tasks[0].id})
+    response = client.get(url)
+    assert response.status_code == 302
+    assert response.url.startswith(reverse('login'))
+
+
+@pytest.mark.django_db
+def test_edit_task_1_view_login(user, tasks):
+    client = Client()
+    client.force_login(user)
+    url = reverse('edit_task', kwargs={'id': tasks[0].id})
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_edit_task_2_view_not_login(tasks):
+    client = Client()
+    url = reverse('edit_task_2', kwargs={'id': tasks[0].id})
+    response = client.get(url)
+    assert response.status_code == 302
+    assert response.url.startswith(reverse('login'))
+
+
+@pytest.mark.django_db
+def test_edit_task_2_view_login(user, tasks):
+    client = Client()
+    client.force_login(user)
+    url = reverse('edit_task_2', kwargs={'id': tasks[0].id})
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_edit_task_3_view_not_login(tasks):
+    client = Client()
+    url = reverse('edit_task_3', kwargs={'id': tasks[0].id})
+    response = client.get(url)
+    assert response.status_code == 302
+    assert response.url.startswith(reverse('login'))
+
+
+@pytest.mark.django_db
+def test_edit_task_3_view_login(user, tasks):
+    client = Client()
+    client.force_login(user)
+    url = reverse('edit_task_3', kwargs={'id': tasks[0].id})
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_edit_task_4_view_not_login(tasks):
+    client = Client()
+    url = reverse('edit_task_4', kwargs={'id': tasks[0].id})
+    response = client.get(url)
+    assert response.status_code == 302
+    assert response.url.startswith(reverse('login'))
+
+
+@pytest.mark.django_db
+def test_edit_task_4_view_login(user, tasks):
+    client = Client()
+    client.force_login(user)
+    url = reverse('edit_task_4', kwargs={'id': tasks[0].id})
+    try:
+        response = client.get(url)
+        assert response.status_code == 200
+    except ValueError as e:
+        print(e)
+
+
+@pytest.mark.django_db
 def test_logout_view_not_login():
     client = Client()
     url = reverse('logout')
